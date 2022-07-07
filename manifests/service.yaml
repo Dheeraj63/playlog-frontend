@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nuxt-frontend
+  labels:
+    name: nuxt-frontend
+spec:
+  ports:
+  - port: 4000
+    targetPort: 4000
+  selector:
+    role: nuxt-frontend

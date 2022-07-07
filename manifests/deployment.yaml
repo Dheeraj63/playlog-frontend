@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nuxt-frontend
+  labels:
+    role: nuxt-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: nuxt-frontend
+  template:
+    metadata:
+      labels:
+        role: nuxt-frontend
+    spec:
+      containers:
+        - name: nuxt-frontend
+          image: registry.gitlab.com/playlog/backend/playlog-frontend:v1
+          ports:
+            - containerPort: 4000
+          imagePullPolicy: Always
+      imagePullSecrets:
+      - name: gitlab-auth
+          

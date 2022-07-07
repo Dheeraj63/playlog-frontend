@@ -1,0 +1,71 @@
+version: "2"
+services:
+  dev:
+    image: "node:16"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./:/home/node/app
+    ports:
+      - 4000:4000
+    command: "npm run dev"
+    restart: on-failure
+  nuxt:
+    image: "node:16"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./:/home/node/app
+    ports:
+      - 4000:4000
+    command: "npm run start"
+    restart: on-failure
+  nginx:
+    image: "nginx:mainline"
+    volumes:
+      - ./_docker/nginx/templates:/etc/nginx/templates
+    ports:
+      - "80:80"
+    restart: on-failure
+    depends_on:
+      - nuxt
+  install:
+    image: "node:16"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./:/home/node/app
+    command: "npm install"
+  build:
+    image: "node:16"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    command: "npm run build"
+  generate:
+    image: "node:16"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    command: "npm run generate"
+  test:
+    image: "node:16"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    command: "npm run test"
